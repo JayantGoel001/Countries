@@ -1,5 +1,5 @@
 let getIndex = function(req, res, next) {
-  res.render('index', { title: 'RESTful Routing' });
+  res.render('index', { title: 'RESTFul Routing' });
 }
 
 let getExample = function(req,res,next) {

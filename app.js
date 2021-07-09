@@ -7,11 +7,10 @@ let logger = require('morgan');
 
 require('./api/models/db');
 let indexRouter = require('./mvc/routes/index');
+let apiRouter = require('./api/routes/index');
 
 let app = express();
 app.use(methodOverride("_method"));
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'mvc', 'views'));
@@ -35,6 +34,7 @@ app.use((req,res,next)=> {
 })
 
 app.use('/', indexRouter);
+app.use('/api',apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

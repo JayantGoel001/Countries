@@ -3,7 +3,6 @@ let router = express.Router();
 
 let indexCtrl = require("../controllers/index");
 
-
 router.get('/', indexCtrl.getIndex);
 router.get('/example', indexCtrl.getExample);
 

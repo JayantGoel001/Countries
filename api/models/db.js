@@ -18,7 +18,6 @@ const shutdown = (msg, callback) => {
         callback();
     });
 };
-
 process.once('SIGUSR2', () => {
     shutdown('nodemon restart', () => {
         process.kill(process.pid, 'SIGUSR2');
