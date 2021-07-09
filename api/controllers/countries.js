@@ -11,7 +11,7 @@ let getCountries = function(req, res, next) {
 }
 
 let getCountryForm = function(req, res, next) {
-    res.statusJson(200, { message: "Get Create Country form" });
+    res.render("form",{ title : "Create A Country" });
 }
 
 let createCountry = function(req, res, next) {
@@ -39,7 +39,12 @@ let getCountry = function(req, res, next) {
 }
 
 let getEditCountryForm = function(req, res, next) {
-    res.statusJson(200, { message: "Get The Form For Editing A Country" });
+    Country.findById(req.params.id,(err,country)=>{
+       if(err){
+           return res.json({ error : err });
+       }
+       res.render("form",{ title : "Edit A Country", country : country });
+    });
 }
 
 let editCountry = function(req, res, next) {
