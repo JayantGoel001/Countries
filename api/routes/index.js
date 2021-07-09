@@ -14,7 +14,7 @@ router.route("/countries/:id")
     .put(countryCtrl.editCountry)
     .delete(countryCtrl.deleteCountry);
 
-router.route("/country")
+router.route("/countries")
     .get(countryCtrl.getCountries)
     .post(countryCtrl.createCountry);
 
