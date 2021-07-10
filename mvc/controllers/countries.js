@@ -3,7 +3,7 @@ const request = require("request");
 let domainPath = "http://localhost:3000";
 
 if (process.env.NODE_ENV === "PRODUCTION"){
-    domainPath = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.rpwwv.mongodb.net/country_data?retryWrites=true&w=majority`;
+    domainPath = "https://jayantgoel001-countries.herokuapp.com";
 }
 
 let getCountryList = (req,res)=>{
