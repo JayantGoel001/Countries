@@ -1,5 +1,5 @@
 let getIndex = function(req, res, next) {
-  res.render('index', { title: 'RESTFul Routing' });
+  res.render('index', { title: 'Countries API' });
 }
 
 let getExample = function(req,res,next) {
