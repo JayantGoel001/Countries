@@ -3,7 +3,7 @@ const request = require("request");
 let domainPath = "http://localhost:3000";
 
 if (process.env.NODE_ENV === "PRODUCTION"){
-    uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.rpwwv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+    domainPath = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.rpwwv.mongodb.net/country_data?retryWrites=true&w=majority`;
 }
 
 let getCountryList = (req,res)=>{
