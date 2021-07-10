@@ -18,4 +18,7 @@ router.route("/countries")
     .get(countryCtrl.getCountries)
     .post(countryCtrl.createCountry);
 
+router.route("/reset")
+    .get(countryCtrl.reset);
+
 module.exports = router;

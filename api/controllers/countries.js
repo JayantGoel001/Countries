@@ -1,7 +1,8 @@
 let mongoose = require("mongoose");
 const Country = mongoose.model("Country");
+let countryData = require("../../data");
 
-let getCountries = function(req, res, next) {
+let getCountries = function(req, res) {
     Country.find((err,countries)=>{
         if(err){
             return res.json({ error : err });
@@ -10,11 +11,11 @@ let getCountries = function(req, res, next) {
     });
 }
 
-let getCountryForm = function(req, res, next) {
+let getCountryForm = function(req, res) {
     res.render("form",{ title : "Create A Country" });
 }
 
-let createCountry = function(req, res, next) {
+let createCountry = function(req, res) {
     if (!req.body.name){
         return res.statusJson(400,{message : "Missing name for the country."});
     }
@@ -29,7 +30,7 @@ let createCountry = function(req, res, next) {
     });
 }
 
-let getCountry = function(req, res, next) {
+let getCountry = function(req, res) {
     Country.findById(req.params.id,(err,country)=>{
         if(err){
             return res.json({ error : err });
@@ -38,7 +39,7 @@ let getCountry = function(req, res, next) {
     });
 }
 
-let getEditCountryForm = function(req, res, next) {
+let getEditCountryForm = function(req, res) {
     Country.findById(req.params.id,(err,country)=>{
        if(err){
            return res.json({ error : err });
@@ -47,7 +48,7 @@ let getEditCountryForm = function(req, res, next) {
     });
 }
 
-let editCountry = function(req, res, next) {
+let editCountry = function(req, res) {
     if (!req.body.name){
         return res.statusJson(400,{ message : "Missing name from country" });
     }
@@ -68,7 +69,7 @@ let editCountry = function(req, res, next) {
     })
 }
 
-let deleteCountry = function(req, res, next) {
+let deleteCountry = function(req, res) {
     Country.findByIdAndRemove(req.params.id,(err,country)=>{
         if(err){
             return res.json({ error : err });
@@ -79,7 +80,18 @@ let deleteCountry = function(req, res, next) {
         res.statusJson(204, { message: "Delete Specific Country", country:country });
     })
 }
-
+let reset = (req,res)=>{
+    Country.deleteMany({},(err,_)=>{
+        if(err){
+            return res.json({ error : err });
+        }
+        Country.insertMany(countryData).then(_  => {
+            return res.redirect("/countries");
+        }).catch((err)=>{
+            return res.json({error: err});
+        });
+    })
+}
 module.exports = {
     getCountries,
     getCountryForm,
@@ -87,5 +99,6 @@ module.exports = {
     getCountry,
     getEditCountryForm,
     editCountry,
-    deleteCountry
+    deleteCountry,
+    reset
 }
