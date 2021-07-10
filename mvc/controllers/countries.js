@@ -1,15 +1,12 @@
 const request = require("request");
 
 let domainPath = "http://localhost:3000";
-const requestOpt = (path,method)=>{
-    return {
-        url : `${domainPath}${path}`,
-        method : method
-    }
-}
 let getCountryList = (req,res)=>{
     const path = "/api/countries/";
-    const requestOption = requestOpt(path,'GET');
+    const requestOption = {
+        url : `${domainPath}${path}`,
+        method : "GET"
+    };
     request(requestOption,(err,response)=>{
         if(err){
             return res.json({ error : err });
@@ -23,28 +20,84 @@ let getCountryList = (req,res)=>{
 }
 let getCountry = (req,res)=>{
     const path = `/api/countries/${req.params.id}`;
-    const requestOption = requestOpt(path,'GET');
+    const requestOption = {
+        url : `${domainPath}${path}`,
+        method : "GET"
+    };
 
     request(requestOption,(err,response)=>{
         if(err){
             return res.json({ error : err });
         }
-        let country = JSON.parse(response.body).country;
-        if (response.statusCode=== 200){
-            return res.render('country',{ title : "Country",country : country });
+        let body = JSON.parse(response.body);
+        if (body.error){
+            res.render("404",{ title : "404" });
+        }else {
+            if (response.statusCode === 200) {
+                return res.render('country', {title: "Country", country: body.country});
+            } else {
+                res.json({message: "Something Went Wrong"});
+            }
         }
-        res.json({ message : "Something Went Wrong" });
     });
 
 }
 let createCountry = (req,res)=>{
-    res.render('index',{ title : "RESTFull Routing" });
+    const path = "/api/countries/"
+    const requestOption = {
+        url : `${domainPath}${path}`,
+        method : 'POST',
+        json : {
+            name : req.body.name
+        }
+    };
+    request(requestOption,(err,response)=>{
+        if(err){
+            return res.json({ error : err });
+        }
+        if (response.statusCode=== 201){
+            return res.redirect("/countries");
+        }else if (response.statusCode === 400){
+
+            return res.json({ body : response.body });
+        }else {
+            return res.json({message: "Something Went Wrong"});
+        }
+    });
 }
 let editCountry = (req,res)=>{
-    res.render('index',{ title : "RESTFull Routing" });
+    const path = `/api/countries/${req.params.id}`
+    const requestOption = {
+        url : `${domainPath}${path}`,
+        method : 'PUT',
+        json : {
+            name : req.body.name
+        }
+    };
+    request(requestOption,(err,response)=>{
+        if(err){ return res.json({ error : err }); }
+        if (response.statusCode === 201){
+            return res.redirect("/countries");
+        }else if (response.statusCode === 400){
+            return res.json({ body : response.body });
+        }else {
+            return res.json({ message: "Something Went Wrong" });
+        }
+    });
 }
 let deleteCountry = (req,res)=>{
-    res.render('index',{ title : "RESTFull Routing" });
+    const path = `/api/countries/${req.params.id}`
+    const requestOption = {
+        url : `${domainPath}${path}`,
+        method : 'DELETE'
+    };
+    request(requestOption,(err,response)=>{
+        if(err){ return res.json({ error : err }); }
+        if (response.statusCode === 404){
+            return res.json({ body : response.body });
+        }
+        res.redirect("/countries");
+    });
 }
 
 module.exports = {

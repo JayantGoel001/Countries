@@ -26,7 +26,7 @@ let createCountry = function(req, res, next) {
             return res.json({ error : err });
         }
         res.statusJson(201, { message: "Create New Country" , country : newCountry});
-    })
+    });
 }
 
 let getCountry = function(req, res, next) {
@@ -68,13 +68,13 @@ let editCountry = function(req, res, next) {
     })
 }
 
-deleteCountry = function(req, res, next) {
+let deleteCountry = function(req, res, next) {
     Country.findByIdAndRemove(req.params.id,(err,country)=>{
         if(err){
             return res.json({ error : err });
         }
         if (!country){
-            return res.statusJson(400,{message : "Could not find country."})
+            return res.statusJson(404,{message : "Could not find country."})
         }
         res.statusJson(204, { message: "Delete Specific Country", country:country });
     })
