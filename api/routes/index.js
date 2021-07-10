@@ -3,20 +3,28 @@ let router = express.Router();
 
 let countryCtrl = require("../controllers/countries");
 
+let apiGuard = (req,res,next)=>{
+    if (req.get('host')!=="localhost"){
+        res.json({ error : "Can't Create, Update or Delete Countries from API while in production mode." })
+    }else {
+        next();
+    }
+}
+
 router.route("/countries/new")
-    .get(countryCtrl.getCountryForm);
+    .get(apiGuard,countryCtrl.getCountryForm);
 
 router.route("/countries/:id/edit")
-    .get(countryCtrl.getEditCountryForm);
+    .get(apiGuard,countryCtrl.getEditCountryForm);
 
 router.route("/countries/:id")
     .get(countryCtrl.getCountry)
-    .put(countryCtrl.editCountry)
-    .delete(countryCtrl.deleteCountry);
+    .put(apiGuard,countryCtrl.editCountry)
+    .delete(apiGuard,countryCtrl.deleteCountry);
 
 router.route("/countries")
     .get(countryCtrl.getCountries)
-    .post(countryCtrl.createCountry);
+    .post(apiGuard,countryCtrl.createCountry);
 
 router.route("/reset")
     .get(countryCtrl.reset);
