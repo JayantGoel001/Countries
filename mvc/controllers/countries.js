@@ -57,8 +57,9 @@ let createCountry = (req,res)=>{
         }
         if (response.statusCode=== 201){
             return res.redirect("/countries");
+        }else if (response.body.error){
+            return res.json({ error : response.body.error });
         }else if (response.statusCode === 400){
-
             return res.json({ body : response.body });
         }else {
             return res.json({message: "Something Went Wrong"});

@@ -22,16 +22,29 @@ let createCountry = function(req, res) {
     let country = {
         name : req.body.name
     }
-    Country.create(country,(err,newCountry)=>{
+    Country.find({},null,{sort : { fakeID : 1} },(err,countries)=> {
         if(err){
             return res.json({ error : err });
         }
-        res.statusJson(201, { message: "Create New Country" , country : newCountry});
+        let fakeID = countries.length+1;
+        for (let i = 0; i < countries.length; i++) {
+            if (countries[i].fakeID !== i+1){
+                fakeID = i+1;
+                break;
+            }
+        }
+        country.fakeID = fakeID;
+        Country.create(country,(err, newCountry) => {
+            if (err) {
+                return res.json({error: err});
+            }
+            res.statusJson(201, {message: "Create New Country", country: newCountry});
+        });
     });
 }
 
 let getCountry = function(req, res) {
-    Country.findById(req.params.id,(err,country)=>{
+    Country.findOne({fakeID : req.params.id},null,{},(err,country)=>{
         if(err){
             return res.json({ error : err });
         }

@@ -6,6 +6,11 @@ const countrySchema = new mongoose.Schema({
         type : String,
         required : true,
         unique : true
+    },
+    fakeID : {
+        type : Number,
+        unique : true,
+        required : true
     }
 });
 
