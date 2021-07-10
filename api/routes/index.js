@@ -4,11 +4,12 @@ let router = express.Router();
 let countryCtrl = require("../controllers/countries");
 
 let apiGuard = (req,res,next)=>{
-    if (req.get('host')!=="localhost"){
-        res.json({ error : "Can't Create, Update or Delete Countries from API while in production mode." })
-    }else {
-        next();
-    }
+    next();
+    // if (req.get('host')!=="localhost"){
+    //     res.json({ error : "Can't Create, Update or Delete Countries from API while in production mode." })
+    // }else {
+    //     next();
+    // }
 }
 
 router.route("/countries/new")
@@ -27,6 +28,6 @@ router.route("/countries")
     .post(apiGuard,countryCtrl.createCountry);
 
 router.route("/reset")
-    .get(countryCtrl.reset);
+    .get(apiGuard,countryCtrl.reset);
 
 module.exports = router;

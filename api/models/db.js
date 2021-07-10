@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 let uri = 'mongodb://localhost/country_data';
 
 if (process.env.NODE_ENV === "PRODUCTION"){
-    uri = "";
+    uri = ``;
 }
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology:true,useCreateIndex:true }).then(()=>{
