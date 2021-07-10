@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 let uri = 'mongodb://localhost/country_data';
 
 if (process.env.NODE_ENV === "PRODUCTION"){
-    uri = ``;
+    uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.rpwwv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 }
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology:true,useCreateIndex:true }).then(()=>{
