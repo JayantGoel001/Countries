@@ -3,7 +3,7 @@ const request = require("request");
 let domainPath = "http://localhost:3000";
 
 if (process.env.NODE_ENV === "PRODUCTION"){
-    domainPath = "https://jayantgoel001-countries.herokuapp.com";
+    domainPath = "https://countries-apis.vercel.app/";
 }
 
 let getCountryList = (req,res)=>{
